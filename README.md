@@ -2,11 +2,11 @@ JMaghreb 2014
 ==========================
 
 Pour lancer l'application en mode développeur :
-* mvn spring-boot:run -Pdev
+    mvn spring-boot:run -Pdev
 * depuis une autre ligne de commande, exécuter : 
-* * grunt server
+    grunt server
 * accéder à l'application par : 
-* * http://localhost:9000
+    http://localhost:9000
 
 Pour lancer l'application en mode production
-* mvn spring-boot:run -Pprod
+    mvn spring-boot:run -Pprod
