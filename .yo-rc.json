@@ -1,0 +1,18 @@
+{
+  "generator-jhipster": {
+    "baseName": "money",
+    "packageName": "com.octo.money",
+    "packageFolder": "com/octo/money",
+    "authenticationType": "cookie",
+    "hibernateCache": "ehcache",
+    "clusteredHttpSession": "no",
+    "websocket": "no",
+    "databaseType": "sql",
+    "devDatabaseType": "h2Memory",
+    "prodDatabaseType": "mysql",
+    "useCompass": true,
+    "buildTool": "maven",
+    "frontendBuilder": "grunt",
+    "javaVersion": "7"
+  }
+}
