@@ -10,5 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.network :private_network, ip: "192.168.33.10"
   
+  #config.vm.synced_folder "/Users/benoitdechateauvieux/Documents/dev/workspaces/jmaghreb", "/home/vagrant/money"
+  
   config.vm.provision :shell, :path => "jenkins-installer.sh"
 end
