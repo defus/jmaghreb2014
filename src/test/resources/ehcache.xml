@@ -35,5 +35,13 @@
     <cache name="com.octo.money.domain.PersistentAuditEvent"
            timeToLiveSeconds="3600">
     </cache>
+    
+    <cache name="com.octo.money.domain.Operation"
+           timeToLiveSeconds="3600">
+    </cache>
+    
+    <cache name="com.octo.money.domain.OperationCategorie"
+           timeToLiveSeconds="3600">
+    </cache>
 </ehcache>
 

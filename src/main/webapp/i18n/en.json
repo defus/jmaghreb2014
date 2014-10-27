@@ -1,11 +1,14 @@
 {
     "global": {
-        "title": "money",
+        "title": "My Finances",
         "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
         "menu": {
+        	"operation" : "Transactions",
+        	"budget" : "Budgets",
             "home": "Home",
+            "dashboard" : "Dashboard",
             "entities": {
-                "main": "Entities"
+                "main": "Parameters"
             },
             "account": {
                 "main": "Account",
@@ -65,8 +68,10 @@
         }
     },
     "main": {
-        "title": "Welcome, Java Hipster!",
-        "subtitle": "This is your homepage",
+        "title": "Dashboard",
+        "titleoff": "Bienvenue sur Money 1.0",
+        "subtitle": "Courbe d'évaluation de transactions et alertes de consommation du budget",
+        "subtitleoff": "Application de gestion de portefeuille personnel",
         "logged": {
             "message": "You are logged in as user \"{{username}}\"."
         },
@@ -317,5 +322,5 @@
         "title": "Error page!",
         "403": "You are not authorized to access the page."
     },
-    "footer": "This is your footer"
+    "footer": "Application de gestion de porte feuille !"
 }

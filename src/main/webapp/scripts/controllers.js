@@ -2,8 +2,42 @@
 
 /* Controllers */
 
-moneyApp.controller('MainController', function ($scope) {
-    });
+moneyApp.controller('MainController', function ($scope, Operation) {
+	$scope.transactionData = [{
+        "key": "Consommations",
+        "values": []
+    }]; 
+	$scope.transactionDataFnc = function(){
+		Operation.query({page: $scope.page, size: $scope.size}, function(operations) {
+			var serieValues = [];
+			for(var i=0;i<operations.length;i++){
+				var operation = operations[i];
+				serieValues[i] = [$scope.getDateTime(operation.dateOperation), operation.montant];
+			}
+			$scope.transactionData =  [{
+	            "key": "Consommations",
+	            "values": [ serieValues]
+	        }];
+	    });
+		
+	};
+	
+	$scope.transactionDataFnc();
+	$scope.xAxisTickFormat = function(){
+        return function(d){
+//            return d3.time.format('%X')(new Date(d));  //uncomment for time format
+            return d3.time.format('%x')(new Date(d));  //uncomment for date format
+        }
+    };
+    
+    $scope.budgetData = [];
+    
+    $scope.getDateTime = function(dateStr){
+    	dateStr=dateStr.split("-");
+    	var newDate=dateStr[1]+"/"+dateStr[2]+"/"+dateStr[0];
+    	return new Date(newDate).getTime();
+    };
+});
 
 moneyApp.controller('AdminController', function ($scope) {
     });
