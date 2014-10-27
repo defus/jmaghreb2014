@@ -56,9 +56,11 @@ public class OperationResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public List<Operation> getAll(@RequestParam(defaultValue="0") int page,
-    		@RequestParam(defaultValue="20") int size) {
+    		@RequestParam(defaultValue="20") int size, 
+    		@RequestParam(defaultValue="dateOperation") String sortColumn,
+    		@RequestParam(defaultValue="DESC") String sortOrder) {
     	Pageable pageable = new PageRequest(
-    		      page,size,new Sort("id")
+    		      page, size, new Sort(Sort.Direction.fromString(sortOrder), sortColumn)
     		    );
         log.debug("REST request to get all Operations : page={}, size={}", page, size);
         return operationRepository.findAll(pageable).getContent();

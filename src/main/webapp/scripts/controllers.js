@@ -7,16 +7,19 @@ moneyApp.controller('MainController', function ($scope, Operation) {
         "key": "Consommations",
         "values": []
     }]; 
+	
+	$scope.budgetData = []; 
+	
 	$scope.transactionDataFnc = function(){
-		Operation.query({page: $scope.page, size: $scope.size}, function(operations) {
+		Operation.query({page: 0, size: 100, sortOrder: 'ASC'}, function(operations) {
 			var serieValues = [];
 			for(var i=0;i<operations.length;i++){
 				var operation = operations[i];
-				serieValues[i] = [$scope.getDateTime(operation.dateOperation), operation.montant];
+				serieValues.push([$scope.getDateTime(operation.dateOperation), operation.montant]);
 			}
 			$scope.transactionData =  [{
 	            "key": "Consommations",
-	            "values": [ serieValues]
+	            "values": serieValues
 	        }];
 	    });
 		
@@ -30,7 +33,7 @@ moneyApp.controller('MainController', function ($scope, Operation) {
         }
     };
     
-    $scope.budgetData = [];
+    
     
     $scope.getDateTime = function(dateStr){
     	dateStr=dateStr.split("-");

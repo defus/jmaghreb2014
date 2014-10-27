@@ -69,9 +69,9 @@
     },
     "main": {
         "title": "Dashboard",
-        "titleoff": "Bienvenue sur Money 1.0",
+        "titleoff": "Welcome to Money 1.0",
         "subtitle": "Courbe d'évaluation de transactions et alertes de consommation du budget",
-        "subtitleoff": "Application de gestion de portefeuille personnel",
+        "subtitleoff": "Personal money mangement platform",
         "logged": {
             "message": "You are logged in as user \"{{username}}\"."
         },

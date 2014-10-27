@@ -7936,8 +7936,8 @@ body {
 .hipster {
   display: inline-block;
   width: 463px;
-  height: 640px;
-  background-image: url("../images/hipster.jpg");
+  height: 430px;
+  background-image: url("../images/operation.png");
   background-position: center center;
   background-repeat: no-repeat;
 }
