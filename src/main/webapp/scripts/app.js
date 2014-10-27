@@ -3,7 +3,7 @@
 /* App Module */
 
 var moneyApp = angular.module('moneyApp', ['http-auth-interceptor', 'tmh.dynamicLocale',
-    'ngResource', 'ngRoute', 'ngCookies', 'moneyAppUtils', 'pascalprecht.translate', 'truncate']);
+    'ngResource', 'ngRoute', 'ngCookies', 'moneyAppUtils', 'pascalprecht.translate', 'truncate', 'nvd3ChartDirectives']);
 
 moneyApp
     .config(function ($routeProvider, $httpProvider, $translateProvider, tmhDynamicLocaleProvider, USER_ROLES) {

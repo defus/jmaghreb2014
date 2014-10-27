@@ -1,11 +1,17 @@
 package com.octo.money.config;
 
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.servlet.InstrumentedFilter;
-import com.codahale.metrics.servlets.MetricsServlet;
-import com.octo.money.web.filter.CachingHttpHeadersFilter;
-import com.octo.money.web.filter.StaticResourcesProductionFilter;
-import com.octo.money.web.filter.gzip.GZipServletFilter;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -13,12 +19,12 @@ import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import javax.inject.Inject;
-import javax.servlet.*;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.servlet.InstrumentedFilter;
+import com.codahale.metrics.servlets.MetricsServlet;
+import com.octo.money.web.filter.CachingHttpHeadersFilter;
+import com.octo.money.web.filter.StaticResourcesProductionFilter;
+import com.octo.money.web.filter.gzip.GZipServletFilter;
 
 /**
  * Configuration of web application with Servlet 3.0 APIs.
@@ -141,4 +147,5 @@ public class WebConfigurer implements ServletContextInitializer {
         h2ConsoleServlet.addMapping("/console/*");
         h2ConsoleServlet.setLoadOnStartup(1);
     }
+    
 }
