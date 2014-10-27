@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import com.codahale.metrics.MetricFilter;
+import com.codahale.metrics.JmxReporter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.graphite.Graphite;
 import com.codahale.metrics.graphite.GraphiteReporter;
@@ -81,10 +81,10 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter implements En
         if (propertyResolver.getProperty(PROP_JMX_ENABLED, Boolean.class, false)) {
             log.info("Initializing Metrics JMX reporting");
             
-            /*
             final JmxReporter jmxReporter = JmxReporter.forRegistry(METRIC_REGISTRY).build();
             jmxReporter.start();
-            */
+            
+            /*
             final Graphite graphite = new Graphite(new InetSocketAddress("localhost", 2003));
             final GraphiteReporter reporter = GraphiteReporter.forRegistry(METRIC_REGISTRY)
                                                               .prefixedWith("web1.money.com")
@@ -93,6 +93,7 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter implements En
                                                               .filter(MetricFilter.ALL)
                                                               .build(graphite);
             reporter.start(1, TimeUnit.MINUTES);
+            */
         }
     }
 

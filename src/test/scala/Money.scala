@@ -8,7 +8,7 @@ import io.gatling.jdbc.Predef._
 class Money extends Simulation {
 
   val httpProtocol = http
-    .baseURL("http://localhost:8080")
+    .baseURL("http://192.168.33.12:8080/money/")
     .inferHtmlResources(BlackList(""".*\.js""", """.*\.css""", """.*\.gif""", """.*\.jpeg""", """.*\.jpg""", """.*\.ico""", """.*\.woff""", """.*\.(t|o)tf""", """.*\.png"""), WhiteList())
     .acceptHeader("""application/json, text/plain, */*""")
     .acceptEncodingHeader("""gzip, deflate""")
@@ -34,25 +34,25 @@ class Money extends Simulation {
 
   val scn = scenario("RecordedSimulation")
     .exec(http("request_0")
-      .get("""/money-0.0.1-SNAPSHOT/""")
+      .get("""/""")
       .headers(headers_0)
       .resources(http("request_1")
       .get(uri1 + """/i18n/en.json""")
       .headers(headers_1)
       .check(status.is(404)),
             http("request_2")
-      .get(uri1 + """/money-0.0.1-SNAPSHOT/i18n/en.json""")
+      .get(uri1 + """/i18n/en.json""")
       .headers(headers_1),
             http("request_3")
-      .get(uri1 + """/money-0.0.1-SNAPSHOT/views/main.html""")
+      .get(uri1 + """/views/main.html""")
       .headers(headers_1)))
     .pause(8)
     .exec(http("request_4")
-      .get("""/money-0.0.1-SNAPSHOT/views/login.html""")
+      .get("""/views/login.html""")
       .headers(headers_4))
     .pause(6)
     .exec(http("request_5")
-      .post("""/money-0.0.1-SNAPSHOT/app/authentication""")
+      .post("""/app/authentication""")
       .headers(headers_1)
       .formParam("""j_username""", """admin""")
       .formParam("""j_password""", """admin""")
@@ -69,7 +69,7 @@ class Money extends Simulation {
       rampUsers(100) over(5 seconds), // 3
       constantUsersPerSec(100) during(5 seconds), // 4
       constantUsersPerSec(100) during(5 seconds) randomized, // 5
-      rampUsersPerSec(10) to(100) during(30 seconds) // 6
+      rampUsersPerSec(10) to(100) during(5 minutes) // 6
       //,splitUsers(1000) into(rampUsers(100) over(10 seconds)) separatedBy(10 seconds) // 8
       ).protocols(httpProtocol)
     )
