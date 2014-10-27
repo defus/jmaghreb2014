@@ -1,13 +1,12 @@
 package com.octo.money.config;
 
-import com.codahale.metrics.JmxReporter;
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.graphite.Graphite;
-import com.codahale.metrics.graphite.GraphiteReporter;
-import com.codahale.metrics.health.HealthCheckRegistry;
-import com.codahale.metrics.jvm.*;
-import com.ryantenney.metrics.spring.config.annotation.EnableMetrics;
-import com.ryantenney.metrics.spring.config.annotation.MetricsConfigurerAdapter;
+import java.lang.management.ManagementFactory;
+import java.net.InetSocketAddress;
+import java.util.concurrent.TimeUnit;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -17,11 +16,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import java.lang.management.ManagementFactory;
-import java.net.InetSocketAddress;
-import java.util.concurrent.TimeUnit;
+import com.codahale.metrics.MetricFilter;
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.graphite.Graphite;
+import com.codahale.metrics.graphite.GraphiteReporter;
+import com.codahale.metrics.health.HealthCheckRegistry;
+import com.codahale.metrics.jvm.BufferPoolMetricSet;
+import com.codahale.metrics.jvm.FileDescriptorRatioGauge;
+import com.codahale.metrics.jvm.GarbageCollectorMetricSet;
+import com.codahale.metrics.jvm.MemoryUsageGaugeSet;
+import com.codahale.metrics.jvm.ThreadStatesGaugeSet;
+import com.ryantenney.metrics.spring.config.annotation.EnableMetrics;
+import com.ryantenney.metrics.spring.config.annotation.MetricsConfigurerAdapter;
 
 @Configuration
 @EnableMetrics(proxyTargetClass = true)
@@ -74,8 +80,19 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter implements En
         METRIC_REGISTRY.register(PROP_METRIC_REG_JVM_BUFFERS, new BufferPoolMetricSet(ManagementFactory.getPlatformMBeanServer()));
         if (propertyResolver.getProperty(PROP_JMX_ENABLED, Boolean.class, false)) {
             log.info("Initializing Metrics JMX reporting");
+            
+            /*
             final JmxReporter jmxReporter = JmxReporter.forRegistry(METRIC_REGISTRY).build();
             jmxReporter.start();
+            */
+            final Graphite graphite = new Graphite(new InetSocketAddress("localhost", 2003));
+            final GraphiteReporter reporter = GraphiteReporter.forRegistry(METRIC_REGISTRY)
+                                                              .prefixedWith("web1.money.com")
+                                                              .convertRatesTo(TimeUnit.SECONDS)
+                                                              .convertDurationsTo(TimeUnit.MILLISECONDS)
+                                                              .filter(MetricFilter.ALL)
+                                                              .build(graphite);
+            reporter.start(1, TimeUnit.MINUTES);
         }
     }
 

@@ -60,5 +60,17 @@ class Money extends Simulation {
       .formParam("""submit""", """Login""")
       .check(status.is(401)))
 
-  setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)
+  //setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)
+      
+  setUp(
+    scn.inject(
+      nothingFor(4 seconds), // 1
+      atOnceUsers(50), // 2
+      rampUsers(100) over(5 seconds), // 3
+      constantUsersPerSec(100) during(5 seconds), // 4
+      constantUsersPerSec(100) during(5 seconds) randomized, // 5
+      rampUsersPerSec(10) to(100) during(30 seconds) // 6
+      //,splitUsers(1000) into(rampUsers(100) over(10 seconds)) separatedBy(10 seconds) // 8
+      ).protocols(httpProtocol)
+    )
 }
