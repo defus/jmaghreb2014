@@ -8,7 +8,7 @@ import io.gatling.jdbc.Predef._
 class Money extends Simulation {
 
 	val httpProtocol = http
-		.baseURL("http://localhost:8080")
+		.baseURL("http://192.168.2.4:8080")
 		.inferHtmlResources(BlackList(""".*192.168.33.13.*""", """.*localhost:9100.*"""), WhiteList())
 		.acceptHeader("""application/json, text/plain, */*""")
 		.acceptEncodingHeader("""gzip, deflate""")
@@ -36,7 +36,7 @@ class Money extends Simulation {
 
 	val headers_8 = Map("""X-Forwarded-For""" -> """217.70.184.38""")
 
-    val uri1 = """http://localhost:8080"""
+    val uri1 = """http://192.168.2.4:8080"""
 
 	val scn = scenario("Money")
 		.exec(http("request_0")
