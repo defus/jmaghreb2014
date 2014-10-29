@@ -1,10 +1,12 @@
 package com.octo.money.web.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
+import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 import com.octo.money.domain.Operation;
+import com.octo.money.domain.PieValue;
+import com.octo.money.domain.Serie;
+import com.octo.money.repository.OperationCategorieRepository;
 import com.octo.money.repository.OperationRepository;
 
 /**
@@ -35,6 +40,9 @@ public class OperationResource {
 
     @Inject
     private OperationRepository operationRepository;
+    
+    @Inject
+    private OperationCategorieRepository operationCategorieRepository;
 
     /**
      * POST  /rest/operations -> Create a new operation.
@@ -66,6 +74,38 @@ public class OperationResource {
         return operationRepository.findAll(pageable).getContent();
     }
 
+    /**
+     * GET  /rest/operations -> get all the operations.
+     */
+    @RequestMapping(value = "/rest/operations/stats/year",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public List<Serie> getStatsYear() {
+    	log.debug("REST request to get Operations stats");
+    	List<Serie> series = new ArrayList<Serie>();
+    	
+    	Serie serie = new Serie();
+		serie.setKey("Consommation de l'année en cours");
+		serie.setValues(operationRepository.getStatsYear(new LocalDate(2014, 1, 1)));
+		series.add(serie);
+
+    	return series;
+    }
+    
+    /**
+     * GET  /rest/operations -> get all the operations.
+     */
+    @RequestMapping(value = "/rest/operations/stats/month",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public List<PieValue> getStatsMonth() {
+    	log.debug("REST request to get Operations stats");
+    	
+    	return operationRepository.getStatsMonth(new LocalDate(2014, 10, 1), new LocalDate(2014, 11, 1));
+    }
+    
     /**
      * GET  /rest/operations/:id -> get the "id" operation.
      */

@@ -41,42 +41,41 @@
    </div>
    
    <div class="row" ng-switch="authenticated">
-        <div class="col-md-6" ng-switch-when="true">
+        <div class="col-md-12" ng-switch-when="true">
             <div>
-                Evolution des transactions
+                Répartition des transactions pour le mois en cours par catégories
             </div>
-            <nvd3-line-chart
-            	width="550"
-        		height="350"
-		        data="transactionData"
-		        showXAxis="true"
-		        showYAxis="true"
+            <nvd3-pie-chart
+            	id="transactionMonth"
+            	data="transactionMonthData"
+		        width="1100"
+		        height="1100"
+		        x="xFunction()"
+		        y="yFunction()"
+		        noData="Aucune données à afficher"
+		        showLabels="true"
 		        tooltips="true"
-		        interactive="true"
-		        showLegend="true"
-		        noData="Aucune données à afficher !"
-		        xAxisTickFormat="xAxisTickFormat()">
-		    </nvd3-line-chart>
-        </div>
-        
-        <div class="col-md-6" ng-switch-when="true">
-            <div>
-                Consommation du budget
+		        >
+		        <svg></svg>
+		    </nvd3-pie-chart>
+       
+        	<div>
+                Répartition des transactions de l'année courante par mois 
             </div>
-            <nvd3-multi-bar-horizontal-chart
-		    	data="budgetData"
-		        id="exampleId2"
-		        xAxisTickFormat="xAxisTickFormatFunction()"
-		        yAxisTickFormat="yAxisTickFormatFunction()"
-		        width="550"
-		        height="350"
-		        showLegend="true"
+            <nvd3-multi-bar-chart
+		    	data="transactionYearData"
+		        id="transactionYear"
+		        width="1100"
+		        height="1100"
+		        showXAxis="true"
+        		showYAxis="true"
+        		showLegend="true"
 		        showControls="true"
-		        noData="Aucune données de catégorie à afficher"
-		        showValues="true"
-		        interactive="true">
-		        	<svg></svg>
-		    </nvd3-multi-bar-horizontal-chart>
+		        noData="Aucune données à afficher"
+		        interactive="true"
+		        tooltips="true">
+		        <svg></svg>
+		    </nvd3-multi-bar-chart>
         </div>
    </div>
 

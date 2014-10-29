@@ -2,44 +2,52 @@
 
 /* Controllers */
 
-moneyApp.controller('MainController', function ($scope, Operation) {
-	$scope.transactionData = [{
-        "key": "Consommations",
-        "values": []
-    }]; 
+moneyApp.controller('MainController', function ($scope, Operation, OperationStats) {
+	$scope.transactionYearData = []; 
+	$scope.transactionMonthData = [];
 	
 	$scope.budgetData = []; 
 	
-	$scope.transactionDataFnc = function(){
-		Operation.query({page: 0, size: 100, sortOrder: 'ASC'}, function(operations) {
-			var serieValues = [];
-			for(var i=0;i<operations.length;i++){
-				var operation = operations[i];
-				serieValues.push([$scope.getDateTime(operation.dateOperation), operation.montant]);
+	$scope.xFunction = function(){
+    	return function(d) {
+        	return d.key;
+    	};
+	}
+	
+    $scope.yFunction = function(){
+        return function(d) {
+            return d.y;
+        };
+    }
+    
+	$scope.transactionCurrentYearFnc = function(){
+		OperationStats.query({period: 'year'}, function(series) {
+			var seriesCustom = [];
+			for(var i=0;i<series.length && i <2 ;i++){
+				var serie = series[i];
+				var serieValuesCustom = [];
+				for(var j=0;j<serie.values.length;j++){
+					var serieValue = serie.values[j];
+					serieValuesCustom.push([serieValue.key, serieValue.value]);
+				}
+				var serieCustom = {"key": serie.key, "values": serieValuesCustom};
+				seriesCustom.push(serieCustom);
 			}
-			$scope.transactionData =  [{
-	            "key": "Consommations",
-	            "values": serieValues
-	        }];
+			$scope.transactionYearData =  seriesCustom;
 	    });
 		
 	};
 	
-	$scope.transactionDataFnc();
-	$scope.xAxisTickFormat = function(){
-        return function(d){
-//            return d3.time.format('%X')(new Date(d));  //uncomment for time format
-            return d3.time.format('%x')(new Date(d));  //uncomment for date format
-        }
-    };
-    
-    
-    
-    $scope.getDateTime = function(dateStr){
-    	dateStr=dateStr.split("-");
-    	var newDate=dateStr[1]+"/"+dateStr[2]+"/"+dateStr[0];
-    	return new Date(newDate).getTime();
-    };
+	$scope.transactionCurrentMonthFnc = function(){
+		OperationStats.query({period: 'month'}, function(pieData) {
+			$scope.transactionMonthData =  pieData;
+	    });
+		
+	};
+	
+	$scope.transactionCurrentYearFnc();
+	$scope.transactionCurrentMonthFnc();
+	
 });
 
 moneyApp.controller('AdminController', function ($scope) {
